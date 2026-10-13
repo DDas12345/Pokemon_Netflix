@@ -65,14 +65,6 @@ const PokemonModal = ({ pokemon, isOpen, onClose }) => {
     onClose();
   };
 
-  const handleMoviePlay = () => {
-    if (pokemon.movieUrl) {
-      window.open(pokemon.movieUrl, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    handleMoreInfo();
-  };
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in"
@@ -147,18 +139,6 @@ const PokemonModal = ({ pokemon, isOpen, onClose }) => {
                 </svg>
                 <span>Trailer</span>
               </button>
-
-              {!pokemon.trailerUrl && (
-                <button
-                  onClick={handleMoviePlay}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white font-bold text-sm transition shadow-lg hover:scale-105 active:scale-95 border border-white/10"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zm3 4v6l6-3-6-3z" />
-                  </svg>
-                  <span>Movie</span>
-                </button>
-              )}
 
               <button
                 onClick={handleToggleWatchlist}
