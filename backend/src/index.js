@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -18,10 +20,22 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+const FRONTEND_URL =
+  process.env.FRONTEND_URL || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173';
+const frontendDist = path.resolve(__dirname, '../../frontend/dist');
+const isProduction = process.env.NODE_ENV === 'production';
+
+if (isProduction) {
+  app.set('trust proxy', 1);
+}
 
 // Security middleware
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
 // CORS configuration
 app.use(
@@ -66,17 +80,27 @@ app.use('/api/watchlist', watchlistRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/ratings', ratingsRoutes);
 
-// 404 Handler
-app.use((req, res) => {
+app.use('/api', (req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });
+
+if (isProduction && fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+} else {
+  app.use((req, res) => {
+    res.status(404).json({ error: 'Endpoint not found' });
+  });
+}
 
 // Centralized error handler
 app.use(errorHandler);
 
 // Start server
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`[Pokéflix Backend] Server is running on port ${PORT}`);
     console.log(`[Pokéflix Backend] Allowing CORS from: ${FRONTEND_URL}`);
   });
