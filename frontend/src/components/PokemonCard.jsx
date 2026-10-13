@@ -158,16 +158,18 @@ const PokemonCard = ({ pokemon, loading = false, progress = null }) => {
               <span>Trailer</span>
             </button>
 
-            <button
-              onClick={handleMoviePlay}
-              className="flex items-center gap-1 flex-1 text-[11px] font-semibold text-gray-100 hover:text-white bg-neutral-800 hover:bg-neutral-700 px-2.5 py-1 rounded transition border border-white/10"
-              title="Play Movie"
-            >
-              <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                <path d="M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zm3 4v6l6-3-6-3z" />
-              </svg>
-              <span>Movie</span>
-            </button>
+            {!pokemon.trailerUrl && (
+              <button
+                onClick={handleMoviePlay}
+                className="flex items-center gap-1 flex-1 text-[11px] font-semibold text-gray-100 hover:text-white bg-neutral-800 hover:bg-neutral-700 px-2.5 py-1 rounded transition border border-white/10"
+                title="Play Movie"
+              >
+                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zm3 4v6l6-3-6-3z" />
+                </svg>
+                <span>Movie</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
