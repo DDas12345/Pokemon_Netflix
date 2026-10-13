@@ -11,8 +11,6 @@ import PokemonDetailPage from './pages/PokemonDetailPage';
 import BrowsePage from './pages/BrowsePage';
 import MyListPage from './pages/MyListPage';
 import SearchPage from './pages/SearchPage';
-import MoviesPage from './pages/MoviesPage';
-import MovieDetailPage from './pages/MovieDetailPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
@@ -101,24 +99,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <MyListPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/movies"
-            element={
-              <ProtectedRoute>
-                <MoviesPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/movie/:id"
-            element={
-              <ProtectedRoute>
-                <MovieDetailPage />
               </ProtectedRoute>
             }
           />

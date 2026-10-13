@@ -79,9 +79,6 @@ const Navbar = () => {
             <NavLink to="/" className={navLinkClass}>
               Home
             </NavLink>
-            <NavLink to="/movies" className={navLinkClass}>
-              Movies
-            </NavLink>
             <NavLink to="/browse/fire" className={navLinkClass}>
               Browse by Type
             </NavLink>
@@ -198,13 +195,6 @@ const Navbar = () => {
             className="block text-sm font-semibold text-gray-200 hover:text-white py-1"
           >
             Home
-          </NavLink>
-          <NavLink
-            to="/movies"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block text-sm font-semibold text-gray-200 hover:text-white py-1"
-          >
-            Movies
           </NavLink>
           <NavLink
             to="/browse/fire"

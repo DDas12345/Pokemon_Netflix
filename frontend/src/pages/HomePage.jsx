@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import HeroBanner from '../components/HeroBanner';
 import PokemonRow from '../components/PokemonRow';
 import { usePokemonByType, usePokemonByIds } from '../hooks/usePokemon';
 import { useWatchlist } from '../hooks/useWatchlist';
+import ALL_POKEMON_MOVIES from '../data/pokemonMovies';
 
 // Featured Legendaries IDs
 const LEGENDARY_IDS = [150, 249, 250, 384, 483, 484, 487, 643, 644, 646, 716, 717, 888, 889];
@@ -28,6 +29,12 @@ const HomePage = () => {
 
       {/* Row Containers */}
       <div className="-mt-16 sm:-mt-24 md:-mt-32 relative z-30 space-y-4">
+        {/* Complete Pokémon Movie Library */}
+        <PokemonRow
+          title="Pokémon Movies"
+          pokemonList={ALL_POKEMON_MOVIES}
+        />
+
         {/* Continue Watching (if any history) */}
         {watchHistory && watchHistory.length > 0 && (
           <PokemonRow

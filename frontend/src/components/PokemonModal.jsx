@@ -57,6 +57,22 @@ const PokemonModal = ({ pokemon, isOpen, onClose }) => {
     navigate(`/pokemon/${pokemon.id}`);
   };
 
+  const handleTrailer = () => {
+    if (pokemon.trailerUrl) {
+      window.open(pokemon.trailerUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    onClose();
+  };
+
+  const handleMoviePlay = () => {
+    if (pokemon.movieUrl) {
+      window.open(pokemon.movieUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    handleMoreInfo();
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in"
@@ -89,7 +105,7 @@ const PokemonModal = ({ pokemon, isOpen, onClose }) => {
 
           {/* Large Artwork */}
           <img
-            src={pokemon.image}
+            src={pokemon.poster || pokemon.image}
             alt={pokemon.displayName || pokemon.name}
             className="relative z-10 max-h-56 md:max-h-64 object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.7)] transform hover:scale-105 transition duration-500"
           />
@@ -123,17 +139,23 @@ const PokemonModal = ({ pokemon, isOpen, onClose }) => {
             {/* Action Buttons */}
             <div className="flex items-center gap-2.5">
               <button
-                onClick={handleWatchNow}
+                onClick={handleTrailer}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-pokeflix-red hover:bg-red-700 text-white font-bold text-sm transition shadow-lg hover:shadow-red-900/50 hover:scale-105 active:scale-95"
               >
-                <svg
-                  className={`w-4 h-4 ${isPlayingAudio ? 'animate-bounce text-yellow-300' : ''}`}
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
-                <span>{isPlayingAudio ? 'Crying...' : 'Watch Cry'}</span>
+                <span>Trailer</span>
+              </button>
+
+              <button
+                onClick={handleMoviePlay}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white font-bold text-sm transition shadow-lg hover:scale-105 active:scale-95 border border-white/10"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zm3 4v6l6-3-6-3z" />
+                </svg>
+                <span>Movie</span>
               </button>
 
               <button
@@ -173,16 +195,20 @@ const PokemonModal = ({ pokemon, isOpen, onClose }) => {
           )}
 
           {/* Quick Metrics */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
             <div className="p-2.5 rounded-lg bg-neutral-800/50 border border-white/5">
-              <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider">Height</span>
-              <span className="text-white font-mono font-bold text-sm">{pokemon.height || '1.0'} m</span>
+              <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider">Audio</span>
+              <span className="text-white font-bold text-sm">{pokemon.audioLanguage || 'English'}</span>
             </div>
             <div className="p-2.5 rounded-lg bg-neutral-800/50 border border-white/5">
-              <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider">Weight</span>
-              <span className="text-white font-mono font-bold text-sm">{pokemon.weight || '30.0'} kg</span>
+              <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider">Quality</span>
+              <span className="text-white font-bold text-sm">{pokemon.quality || '1080p HD'}</span>
             </div>
-            <div className="p-2.5 rounded-lg bg-neutral-800/50 border border-white/5 col-span-2 sm:col-span-1">
+            <div className="p-2.5 rounded-lg bg-neutral-800/50 border border-white/5">
+              <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider">Subtitles</span>
+              <span className="text-white font-bold text-sm">{(pokemon.subtitles || ['English']).join(', ')}</span>
+            </div>
+            <div className="p-2.5 rounded-lg bg-neutral-800/50 border border-white/5">
               <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider">Status</span>
               <span className="text-green-400 font-bold text-sm">Streaming</span>
             </div>

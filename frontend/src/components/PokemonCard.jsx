@@ -50,6 +50,24 @@ const PokemonCard = ({ pokemon, loading = false, progress = null }) => {
     setShowModal(true);
   };
 
+  const handleTrailer = (e) => {
+    e.stopPropagation();
+    if (pokemon.trailerUrl) {
+      window.open(pokemon.trailerUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    handleOpenModal(e);
+  };
+
+  const handleMoviePlay = (e) => {
+    e.stopPropagation();
+    if (pokemon.movieUrl) {
+      window.open(pokemon.movieUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    handleCardClick();
+  };
+
   return (
     <>
       <div
@@ -98,7 +116,7 @@ const PokemonCard = ({ pokemon, loading = false, progress = null }) => {
         {/* Center Artwork */}
         <div className="relative w-full h-[65%] flex items-center justify-center p-4">
           <img
-            src={pokemon.image}
+            src={pokemon.poster || pokemon.image}
             alt={pokemon.displayName || pokemon.name}
             loading="lazy"
             className="w-full h-full object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)] transform group-hover:scale-110 transition duration-300 ease-out"
@@ -129,29 +147,26 @@ const PokemonCard = ({ pokemon, loading = false, progress = null }) => {
           </div>
 
           {/* Hover Action Bar */}
-          <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleCardClick();
-              }}
-              className="flex items-center gap-1 text-[11px] font-semibold text-white bg-pokeflix-red hover:bg-red-700 px-2.5 py-1 rounded transition shadow-sm hover:scale-105"
+              onClick={handleTrailer}
+              className="flex items-center gap-1 flex-1 text-[11px] font-semibold text-white bg-pokeflix-red hover:bg-red-700 px-2.5 py-1 rounded transition shadow-sm hover:scale-105"
             >
               <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
-              <span>Play</span>
+              <span>Trailer</span>
             </button>
 
             <button
-              onClick={handleOpenModal}
-              className="flex items-center gap-1 text-[11px] font-semibold text-gray-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 px-2.5 py-1 rounded transition border border-white/10"
-              title="Quick Preview"
+              onClick={handleMoviePlay}
+              className="flex items-center gap-1 flex-1 text-[11px] font-semibold text-gray-100 hover:text-white bg-neutral-800 hover:bg-neutral-700 px-2.5 py-1 rounded transition border border-white/10"
+              title="Play Movie"
             >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                <path d="M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zm3 4v6l6-3-6-3z" />
               </svg>
-              <span>Info</span>
+              <span>Movie</span>
             </button>
           </div>
         </div>
